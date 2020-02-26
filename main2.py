@@ -25,7 +25,7 @@ def main():
                 i=0
                 scanned = set()
                 libraries_to_scan = []
-                libraries.sort(key=lambda x: x.score2(set())/x.signup_days, reverse=True)
+                libraries.sort(key=lambda x: x.score(set())/x.signup_days, reverse=True)
                 while D > 0 and libraries!=[]:
                     library = libraries.pop(0)
                     D-=library.signup_days
@@ -33,7 +33,6 @@ def main():
                         will_scan = library.books_to_scan(D, scanned)
                         scanned = scanned.union(set(will_scan))
                         libraries_to_scan.append({"id":library.id, "no_books": len(will_scan), "books_to_scan":will_scan})
-                        libraries.sort(key=lambda x: x.score2(scanned)/x.signup_days, reverse=True)
             # wtite to file
                 with open('submission/'+file, 'w+') as outputfile: # 'w+' means create file if it doesnt exist
                     #you can only write strings to text file
