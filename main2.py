@@ -1,8 +1,17 @@
+# @Author: Ibrahim Salihu Yusuf <yusuf>
+# @Date:   2020-02-26T20:24:57+02:00
+# @Email:  sibrahim1396@gmail.com
+# @Project: Audio Classifier
+# @Last modified by:   yusuf
+# @Last modified time: 2020-02-26T20:30:31+02:00
+
+
+
 import os
 import heapq
 
 from utils import *
-    
+
 def main():
     for file in os.listdir(os.path.join(os.getcwd(), "datasets")):
         if file.endswith('txt'): #leave the last e out for now
@@ -21,13 +30,12 @@ def main():
                     line = next(datafile)
                     books_id = list(map(int, line.split()))
                     lib = Library(i, books_id, bpd, signup_days, book_scores)
-                    libraries.append(lib)
+                    heapq.heappush(libraries, (-(x.score(set())/x.signup_days), lib))
                 i=0
                 scanned = set()
                 libraries_to_scan = []
-                libraries.sort(key=lambda x: x.score(set())/x.signup_days, reverse=True)
                 while D > 0 and libraries!=[]:
-                    library = libraries.pop(0)
+                    _, library = heapq.heappop(libraries)
                     D-=library.signup_days
                     if D>0:
                         will_scan = library.books_to_scan(D, scanned)
@@ -46,5 +54,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
